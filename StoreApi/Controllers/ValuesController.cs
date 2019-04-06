@@ -2,19 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace StoreApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+   
     public class ValuesController : ControllerBase
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToArray();
+            return Ok(new { message = "Hello API", claims });
         }
 
         // GET api/values/5

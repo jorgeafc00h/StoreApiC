@@ -15,12 +15,7 @@ namespace StoreApi
             BuildWebHost(args)
                 .MigrateDbContext<StoreDbContext>((context, services) =>
                 {
-                    var env = services.GetService<IHostingEnvironment>();
-                    var logger = services.GetService<ILogger<StoreDbContext>>();
-                    
-                    new StoreContextSeed()
-                        .SeedAsync(context, env, logger)
-                        .Wait();
+                    new StoreContextSeed().SeedAsync(context, services).Wait();
                 })
                 .Run();
                 

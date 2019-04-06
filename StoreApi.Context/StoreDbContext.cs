@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.EntityFrameworkCore;
 using Models;
+using StoreApi.Identity.Models;
 using System;
 
 namespace StoreApi.Context
 {
-    public class StoreDbContext : DbContext
+    public class StoreDbContext : Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityDbContext<ApplicationUser>
     {
         public StoreDbContext(DbContextOptions<StoreDbContext> options):base(options)
         {
@@ -21,7 +23,7 @@ namespace StoreApi.Context
         /// <param name="builder"></param>
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
+            base.OnModelCreating(builder);
         }
     }
 }
