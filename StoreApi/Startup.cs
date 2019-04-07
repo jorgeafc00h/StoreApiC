@@ -26,24 +26,27 @@ namespace StoreApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration,ILogger<Startup> logger)
         {
             Configuration = configuration;
+            this._logger = logger;
         }
 
         public IConfiguration Configuration { get; }
+
+        private readonly ILogger<Startup> _logger;
 
         // This method gets called by the runtime. Use this method to add services to the container or web app.
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionstring = Configuration.GetConnectionString("DefaultConnection");
-
+            var migrationsAssembly = typeof(StoreDbContext).GetTypeInfo().Assembly.GetName().Name;
 
             services.AddDbContext<StoreDbContext>(options =>
             {
                 options.UseSqlServer(connectionstring, sqlServerOptionsAction: sqlOptions =>
                 {
-                    sqlOptions.MigrationsAssembly(typeof(StoreDbContext).GetTypeInfo().Assembly.GetName().Name);
+                    sqlOptions.MigrationsAssembly(migrationsAssembly);
                     //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
                     sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                 });
@@ -74,25 +77,27 @@ namespace StoreApi
                 .AddDefaultTokenProviders();
 
             // call extension method to implement a custom IdentyServer4 Implementation. 
-            services.CustomIdentityServerConfiguration();
+            services.CustomIdentityServerConfiguration(connectionstring,migrationsAssembly);
 
-            //services.AddMvcCore().AddAuthorization().AddJsonFormatters();
-             
+            services.AddMvcCore().AddAuthorization().AddJsonFormatters();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(options =>
-            {
+           .AddJwtBearer(options =>
+           {
                 // base-address  identityserver
                 options.Authority = Config.BaseUrl;
 
                 // name of the API resource
                 options.Audience = "api1";
 
-                options.RequireHttpsMetadata = false;
-            });
+               options.RequireHttpsMetadata = false;
+           });
+
+            //services.AddCustomIdentityServerAuthentication(_logger);
 
             services.AddCors(options =>
             {
@@ -125,8 +130,8 @@ namespace StoreApi
             app.UseStaticFiles();
 
           
-            app.AddCustomIdentityServer();
             app.UseAuthentication();
+            app.AddCustomIdentityServer();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

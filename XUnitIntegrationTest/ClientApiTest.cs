@@ -66,7 +66,7 @@ namespace XUnitIntegrationTest
             apiClient.DefaultRequestHeaders.Add("bearer", tokenResponse.AccessToken);
 
 
-            var response = await apiClient.GetAsync($"{Config.BaseUrl}identity");
+            var response = await apiClient.GetAsync($"{Config.BaseUrl}api/identity");
             if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine(response.StatusCode);
@@ -74,10 +74,10 @@ namespace XUnitIntegrationTest
             else
             {
                 var content = response.Content.ReadAsStringAsync().Result;
-                Console.WriteLine(JArray.Parse(content));
+                Console.WriteLine(content);
             }
 
-            var values = await apiClient.GetAsync($"{Config.BaseUrl}api/values");
+            var values = await apiClient.GetAsync($"{Config.BaseUrl}api/identity/Adminclaims");
 
 
             if (!values.IsSuccessStatusCode)
