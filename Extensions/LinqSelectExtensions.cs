@@ -46,5 +46,10 @@ namespace Extensions
             public TResult Result { get; private set; }
             public Exception CaughtException { get; private set; }
         }
+
+        public static List<string> ToSearchKeys(this string keywords)
+        {
+            return keywords.ToLower().Split(' ').ToList();
+        }
     }
 }

@@ -14,9 +14,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using StoreApi.BusinessAccess.Services;
 using StoreApi.Context;
 using StoreApi.Identity;
 using StoreApi.Identity.Models;
+using StoreApi.Infrastructure.Interfaces;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace StoreApi
@@ -58,10 +60,7 @@ namespace StoreApi
                         Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            // Implement Repositories
-            //services.AddScoped<IProductRepository, ProductRepository>();
-
-
+            
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
@@ -82,6 +81,9 @@ namespace StoreApi
                    jwt.RequireHttpsMetadata = false;
                    jwt.Audience = "api1";
                });
+
+            // Implement Repositories
+            services.AddScoped<IProductService, ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

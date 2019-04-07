@@ -19,13 +19,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApi.Context", "StoreAp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extensions", "Extensions\Extensions.csproj", "{07978792-2CC1-4B0D-A554-F10F9D550DA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApi.Identity", "StoreApi.Identity\StoreApi.Identity.csproj", "{52B95220-2667-4AF8-ADFA-1B3CB2641872}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApi.Identity", "StoreApi.Identity\StoreApi.Identity.csproj", "{52B95220-2667-4AF8-ADFA-1B3CB2641872}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApi.Infrastructure", "StoreApi.Infrastructure\StoreApi.Infrastructure.csproj", "{9D7E0E20-665F-4E3D-8D30-2B769FF81C0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApi.Infrastructure", "StoreApi.Infrastructure\StoreApi.Infrastructure.csproj", "{9D7E0E20-665F-4E3D-8D30-2B769FF81C0E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CA2FA0B1-7E62-449C-A325-88BAB6956794}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitIntegrationTest", "XUnitIntegrationTest\XUnitIntegrationTest.csproj", "{2BFE79D8-47F8-48E6-8D5F-B1D83C2F06F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitIntegrationTest", "XUnitIntegrationTest\XUnitIntegrationTest.csproj", "{2BFE79D8-47F8-48E6-8D5F-B1D83C2F06F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,7 +80,7 @@ Global
 		{0251166D-D9DB-47C9-9D80-00463B740B6B} = {E4AA4522-7E30-4E5F-A303-2A47D9E1923C}
 		{07978792-2CC1-4B0D-A554-F10F9D550DA5} = {1F7258E9-557D-4E05-9841-6B5F13276662}
 		{52B95220-2667-4AF8-ADFA-1B3CB2641872} = {E4AA4522-7E30-4E5F-A303-2A47D9E1923C}
-		{9D7E0E20-665F-4E3D-8D30-2B769FF81C0E} = {E4AA4522-7E30-4E5F-A303-2A47D9E1923C}
+		{9D7E0E20-665F-4E3D-8D30-2B769FF81C0E} = {1F7258E9-557D-4E05-9841-6B5F13276662}
 		{2BFE79D8-47F8-48E6-8D5F-B1D83C2F06F4} = {CA2FA0B1-7E62-449C-A325-88BAB6956794}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

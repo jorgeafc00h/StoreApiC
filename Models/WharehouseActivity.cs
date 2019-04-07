@@ -4,8 +4,13 @@ using System.Text;
 
 namespace Models
 {
-    public class ProductAuditLog:BaseModel
+    public class WharehouseActivity : BaseModel
     {
+
+        public WharehouseActivity()
+        {
+
+        }
 
         public DateTime Date { get; set; } = DateTime.Now;
 
@@ -13,7 +18,10 @@ namespace Models
 
         public int ProductId { get; set; }
 
-        public string Description { get; set; }
+        public int Qty { get; set; }
+
+        public WarehouseActivityType ActivityType { get; set; }
+
 
         public string UserId { get; set; }
     }

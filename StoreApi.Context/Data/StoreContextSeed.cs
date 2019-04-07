@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
+using Models;
 using StoreApi.Identity.Models;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,6 @@ namespace StoreApi.Context.Data
         public async Task SeedAsync(StoreDbContext context, IServiceProvider services, int? retry = 0)
         {
 
-
             int retryForAvaiability = retry.Value;
 
             var env = services.GetService<IHostingEnvironment>();
@@ -42,7 +41,7 @@ namespace StoreApi.Context.Data
                 var webroot = env.WebRootPath;
                 using (var scope = services.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 { 
-                    if (!context.Users.Any())
+                    if (!await context.Users.AnyAsync())
                     {
                         var users = GetUsersFromFileOrDefaults(contentRootPath, logger);
                         context.Users.AddRange(users);
@@ -55,6 +54,13 @@ namespace StoreApi.Context.Data
                             
                         }
 
+                    }
+
+                    if(!await context.Products.AnyAsync())
+                    {
+                        context.Products.AddRange(GetDumpProducts());
+
+                        await context.SaveChangesAsync();
                     }
                 }
 
@@ -194,6 +200,155 @@ namespace StoreApi.Context.Data
 
             return csvheaders;
         }
+
+        #endregion
+
+        #region Product Data
+
+        public List<Product> GetDumpProducts()
+        {
+            return new List<Product>()
+            {
+                new Product()
+                {
+                    Name ="Apple slices with almond butter.",
+                    Description = "Description Apple slices with almond butter.",
+                    AvailableStock=35,
+                    RestockThreshold =5,
+                    MaxStockThreshold = 50,
+                    Price = 5
+
+
+                },
+                new Product()
+                {
+                    Name ="Salad Cookie",
+                    Description = "Description Salad Cookie",
+                    AvailableStock=25,
+                    RestockThreshold =5,
+                    MaxStockThreshold = 50,
+                    Price =  (decimal) 1.50,
+                },
+                new Product()
+                {
+                    Name ="Bubblegum",
+                    Description = "A type of chewing gum, designed to be inflated out of the mouth as a bubble. As with chewing gum, the product is made from chicle and is available in various flavors.",
+                    AvailableStock=100,
+                    RestockThreshold =25,
+                    MaxStockThreshold = 150,
+                    Price =  (decimal) 0.25,
+                },
+                 new Product()
+                {
+                    Name ="Chocolate",
+                    Description = "Chocolate has been used as a drink for nearly all of its history, and has become one of the most popular food types ",
+                    AvailableStock=95,
+                    RestockThreshold =25,
+                    MaxStockThreshold = 100,
+                    Price =  (decimal) 1.25,
+                },
+                 new Product()
+                {
+                    Name ="Marshmallow",
+                    Description = "Marshmallow bag 25 small units",
+                    AvailableStock=90,
+                    RestockThreshold =15,
+                    MaxStockThreshold = 120,
+                    Price =  (decimal) 3.50,
+                },
+                 new Product()
+                {
+                    Name ="Chocolate rugelach",
+                    Description = "Chocolate rugelach 10 small units",
+                    AvailableStock=90,
+                    RestockThreshold =15,
+                    MaxStockThreshold = 120,
+                    Price =  (decimal) 3.50,
+                },
+                 new Product()
+                {
+                    Name ="Chocolate truffle",
+                    Description = "Chocolate truffle 5 small units",
+                    AvailableStock=90,
+                    RestockThreshold =15,
+                    MaxStockThreshold = 120,
+                    Price =  (decimal) 3.50,
+                },
+                 new Product()
+                {
+                    Name ="Fudge",
+                    Description = "Fudge 10 small units",
+                    AvailableStock=90,
+                    RestockThreshold =15,
+                    MaxStockThreshold = 120,
+                    Price =  (decimal) 3.50,
+                },
+                 new Product()
+                {
+                    Name ="Fudge",
+                    Description = "Fudge 10 small units",
+                    AvailableStock=90,
+                    RestockThreshold =15,
+                    MaxStockThreshold = 120,
+                    Price =  (decimal) 3.50,
+                },
+                 new Product()
+                {
+                    Name ="Fudge",
+                    Description = "Typically sweet and rich, it's prepared by mixing sugar, butter, and milk,  10 small units",
+                    AvailableStock=90,
+                    RestockThreshold =15,
+                    MaxStockThreshold = 120,
+                    Price =  (decimal) 3.50,
+                },
+                 new Product()
+                {
+                    Name ="Geplak",
+                    Description = "Made from equal parts coarsely grated coconut and sugar, in equal amounts, often colored brightly. Other variations exist.",
+                    AvailableStock=90,
+                    RestockThreshold =15,
+                    MaxStockThreshold = 120,
+                    Price =  (decimal) 3.50,
+                },
+                 new Product()
+                {
+                    Name ="Grass jelly",
+                    Description = "A jelly-like dessert prepared by boiling the aged and slightly oxidized stalks and leaves of Mesona chinensis",
+                    AvailableStock=90,
+                    RestockThreshold =15,
+                    MaxStockThreshold = 120,
+                    Price =  (decimal) 3.50,
+                },
+                   new Product()
+                {
+                    Name ="Nougat",
+                    Description = "A variety of similar traditional confectioneries made with sugar and/or honey, roasted nuts (almonds, walnuts, pistachios, hazelnuts, and recently macadamia nuts are common)",
+                    AvailableStock=90,
+                    RestockThreshold =15,
+                    MaxStockThreshold = 120,
+                    Price =  (decimal) 3.50,
+                },
+                    new Product()
+                {
+                    Name ="Chocolate chip cookie",
+                    Description = "Chocolate chip cookie",
+                    AvailableStock=90,
+                    RestockThreshold =15,
+                    MaxStockThreshold = 120,
+                    Price =  (decimal) 3.50,
+                },
+                     new Product()
+                {
+                    Name ="Ginger snaps",
+                    Description = "Ginger snaps",
+                    AvailableStock=90,
+                    RestockThreshold =15,
+                    MaxStockThreshold = 120,
+                    Price =  (decimal) 3.50,
+                },
+            };
+        }
+
 
         #endregion
 
