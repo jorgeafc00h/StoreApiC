@@ -128,11 +128,13 @@ namespace StoreApi.BusinessAccess.Services
 
             var count = await products.CountAsync();
 
+            var skip = (page - 1) * limit;
+
             return new SearchResult
             {
                 Count = count,
                 Page =page,
-                Products = await products.Skip(limit *page).Take(limit).ToListAsync(),
+                Products = await products.Skip(skip).Take(limit).ToListAsync(),
 
             };
 

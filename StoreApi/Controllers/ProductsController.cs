@@ -79,9 +79,9 @@ namespace StoreApi.Controllers
         /// <param name="orderbydesc"></param>
         /// <returns></returns>
         // GET api/values
-        [HttpGet("search/{keywords,limit,page}", Name = "Search")]
+        [HttpGet("search/{keywords}", Name = "Search")]
         [ProducesResponseType(typeof(IEnumerable<Product>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Search([FromQuery] string keywords, int limit, int page, bool orderbydesc = false)
+        public async Task<IActionResult> Search([FromQuery] string keywords, int limit=30, int page=1, bool orderbydesc = false)
         {
             return Ok(await Service.Search(keywords, limit, page, orderbydesc));
         }

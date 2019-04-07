@@ -67,6 +67,8 @@ namespace XUnitIntegrationTest
 
 
             var response = await apiClient.GetAsync($"{Config.BaseUrl}api/identity");
+
+            Assert.True(response.IsSuccessStatusCode);
             if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine(response.StatusCode);
@@ -79,7 +81,7 @@ namespace XUnitIntegrationTest
 
             var values = await apiClient.GetAsync($"{Config.BaseUrl}api/identity/Adminclaims");
 
-
+            Assert.True(values.IsSuccessStatusCode);
             if (!values.IsSuccessStatusCode)
             {
                 Console.WriteLine(response.StatusCode);
@@ -87,7 +89,7 @@ namespace XUnitIntegrationTest
             else
             {
                 var content = values.Content.ReadAsStringAsync().Result;
-                Console.WriteLine(JArray.Parse(content));
+                Console.WriteLine(content);
             }
         }
     }

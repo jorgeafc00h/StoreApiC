@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CA2FA0B1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitIntegrationTest", "XUnitIntegrationTest\XUnitIntegrationTest.csproj", "{2BFE79D8-47F8-48E6-8D5F-B1D83C2F06F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{1CC102AF-BE88-4BEC-8D34-0064841A0E84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{2BFE79D8-47F8-48E6-8D5F-B1D83C2F06F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BFE79D8-47F8-48E6-8D5F-B1D83C2F06F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BFE79D8-47F8-48E6-8D5F-B1D83C2F06F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CC102AF-BE88-4BEC-8D34-0064841A0E84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CC102AF-BE88-4BEC-8D34-0064841A0E84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CC102AF-BE88-4BEC-8D34-0064841A0E84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CC102AF-BE88-4BEC-8D34-0064841A0E84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +88,7 @@ Global
 		{52B95220-2667-4AF8-ADFA-1B3CB2641872} = {E4AA4522-7E30-4E5F-A303-2A47D9E1923C}
 		{9D7E0E20-665F-4E3D-8D30-2B769FF81C0E} = {1F7258E9-557D-4E05-9841-6B5F13276662}
 		{2BFE79D8-47F8-48E6-8D5F-B1D83C2F06F4} = {CA2FA0B1-7E62-449C-A325-88BAB6956794}
+		{1CC102AF-BE88-4BEC-8D34-0064841A0E84} = {CA2FA0B1-7E62-449C-A325-88BAB6956794}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61B011E7-7619-422B-AA87-10D8E7719672}

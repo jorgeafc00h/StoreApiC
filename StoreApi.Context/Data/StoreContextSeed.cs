@@ -59,7 +59,7 @@ namespace StoreApi.Context.Data
 
                         foreach (var user in users)
                         {
-                            var roleResult = await userMgr.AddToRoleAsync(user, user.Role);
+                            await userMgr.AddToRoleAsync(user, user.Role);
 
                             var claims = new List<Claim>()
                             {
@@ -69,7 +69,7 @@ namespace StoreApi.Context.Data
                                 new Claim(JwtClaimTypes.Email, user.Email),
                                 new Claim(JwtClaimTypes.Role, user.Role),
                             };
-                           var claimsResult=  await userMgr.AddClaimsAsync(user, claims);
+                           await userMgr.AddClaimsAsync(user, claims);
                         }
                     }
 
@@ -91,6 +91,87 @@ namespace StoreApi.Context.Data
                     logger.LogError(ex, "EXCEPTION ERROR while migrating {DbContextName}", nameof(StoreDbContext));
 
                     await SeedAsync(context, services, retryForAvaiability);
+                }
+            }
+        }
+
+        public async Task SeedInMemoryDataForMock(StoreDbContext context, IServiceProvider services, int? retry = 0, bool migrateDatabase = true)
+        {
+
+            int retryForAvaiability = retry.Value;
+
+            var env = services.GetService<IHostingEnvironment>();
+            var logger = services.GetService<ILogger<StoreDbContext>>();
+             
+            try
+            {
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+                var contentRootPath = env.ContentRootPath;
+                var webroot = env.WebRootPath;
+                using (var scope = services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+
+                    //check roles
+                    if (await roleManager.FindByNameAsync("Admin") == null)
+                    {
+                        await roleManager.CreateAsync(new IdentityRole("Admin"));
+                        await roleManager.CreateAsync(new IdentityRole("User"));
+                    }
+
+                    if (!await context.Users.AnyAsync())
+                    {
+                        var users = GetUsersFromFileOrDefaults(contentRootPath, logger);
+                        context.Users.AddRange(users);
+
+                        await context.SaveChangesAsync();
+
+                        var roles = context.Roles.ToList();
+
+                        foreach (var user in users)
+                        {
+                            await context.UserRoles.AddAsync(new IdentityUserRole<string>()
+                            {
+                                UserId = user.Id,
+                                RoleId = roles.FirstOrDefault(r => r.Name == user.Role).Id
+                            });
+
+                            var claims = new List<Claim>()
+                            {
+                                new Claim("sub", user.Id),
+                                new Claim(JwtClaimTypes.GivenName, user.Name),
+                                new Claim(JwtClaimTypes.FamilyName, user.LastName),
+                                new Claim(JwtClaimTypes.Email, user.Email),
+                                new Claim(JwtClaimTypes.Role, user.Role),
+                            };
+
+                            var userCLaims = claims.Select(c =>
+                            new IdentityUserClaim<string> { UserId = user.Id, ClaimType = c.Type, ClaimValue = c.Value })
+                            .ToList();
+
+                            await context.UserClaims.AddRangeAsync(userCLaims); 
+                             
+                        }
+                    }
+
+                    if (!await context.Products.AnyAsync())
+                    {
+                        context.Products.AddRange(GetDumpProducts());
+
+                        await context.SaveChangesAsync();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                if (retryForAvaiability < 10)
+                {
+                    retryForAvaiability++;
+
+                    logger.LogError(ex, "EXCEPTION ERROR while migrating {DbContextName}", nameof(StoreDbContext));
+
+                    await SeedInMemoryDataForMock(context, services, retryForAvaiability, migrateDatabase);
                 }
             }
         }
