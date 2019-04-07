@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -55,6 +56,7 @@ namespace StoreApi
 
             // TO Avoid Circular References
             services.AddMvc()
+                
                 .AddJsonOptions(options => {
                     options.SerializerSettings.ReferenceLoopHandling =
                         Newtonsoft.Json.ReferenceLoopHandling.Ignore;
@@ -74,13 +76,32 @@ namespace StoreApi
             // call extension method to implement a custom IdentyServer4 Implementation. 
             services.CustomIdentityServerConfiguration();
 
-            services.AddAuthentication()
-               .AddJwtBearer(jwt =>
-               {
-                   jwt.Authority = Config.BaseUrl;
-                   jwt.RequireHttpsMetadata = false;
-                   jwt.Audience = "api1";
-               });
+            //services.AddMvcCore().AddAuthorization().AddJsonFormatters();
+             
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                // base-address  identityserver
+                options.Authority = Config.BaseUrl;
+
+                // name of the API resource
+                options.Audience = "api1";
+
+                options.RequireHttpsMetadata = false;
+            });
+
+            services.AddCors(options =>
+            {
+                // this defines a CORS policy called "default"
+                options.AddPolicy("default", policy =>
+                {
+                    policy.AllowAnyOrigin();
+                });
+            });
 
             // Implement Repositories
             services.AddScoped<IProductService, ProductService>();
@@ -89,7 +110,7 @@ namespace StoreApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-             
+            app.UseCors("default");
 
             if (env.IsDevelopment())
             {
@@ -103,8 +124,9 @@ namespace StoreApi
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
+          
             app.AddCustomIdentityServer();
-
+            app.UseAuthentication();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

@@ -66,13 +66,14 @@ namespace StoreApi.Identity
             new IdentityResources.OpenId(),
             new IdentityResources.Profile(),
             new IdentityResources.Email(),
+             
         };
 
         public static IEnumerable<ApiResource> Apis = new List<ApiResource>
         {
-            new ApiResource("api1", "StoreApiCoding 1")
+            new ApiResource("api1", "StoreApiCoding")
         };
 
-        public static string BaseUrl { get; set; } = "http://localhost:59467";
+        public static string BaseUrl { get; set; } = "https://localhost:44373/";
     }
 }

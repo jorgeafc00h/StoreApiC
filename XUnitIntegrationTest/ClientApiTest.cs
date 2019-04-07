@@ -63,7 +63,10 @@ namespace XUnitIntegrationTest
             var apiClient = new HttpClient();
             apiClient.SetBearerToken(tokenResponse.AccessToken);
 
-            var response = await apiClient.GetAsync($"{Config.BaseUrl}/identity");
+            apiClient.DefaultRequestHeaders.Add("bearer", tokenResponse.AccessToken);
+
+
+            var response = await apiClient.GetAsync($"{Config.BaseUrl}identity");
             if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine(response.StatusCode);
@@ -71,6 +74,19 @@ namespace XUnitIntegrationTest
             else
             {
                 var content = response.Content.ReadAsStringAsync().Result;
+                Console.WriteLine(JArray.Parse(content));
+            }
+
+            var values = await apiClient.GetAsync($"{Config.BaseUrl}api/values");
+
+
+            if (!values.IsSuccessStatusCode)
+            {
+                Console.WriteLine(response.StatusCode);
+            }
+            else
+            {
+                var content = values.Content.ReadAsStringAsync().Result;
                 Console.WriteLine(JArray.Parse(content));
             }
         }

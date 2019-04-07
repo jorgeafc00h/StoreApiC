@@ -36,11 +36,20 @@ namespace StoreApi.Context.Data
             try
             {
                 var userMgr = services.GetRequiredService<UserManager<ApplicationUser>>();
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
                 var contentRootPath = env.ContentRootPath;
                 var webroot = env.WebRootPath;
                 using (var scope = services.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 { 
+
+                    //check roles
+                    if(await roleManager.FindByNameAsync("Admin") == null)
+                    {
+                        await roleManager.CreateAsync(new IdentityRole("Admin"));
+                        await roleManager.CreateAsync(new IdentityRole("User"));
+                    }
+
                     if (!await context.Users.AnyAsync())
                     {
                         var users = GetUsersFromFileOrDefaults(contentRootPath, logger);
@@ -48,12 +57,20 @@ namespace StoreApi.Context.Data
 
                         await context.SaveChangesAsync();
 
-                        foreach(var user in users)
+                        foreach (var user in users)
                         {
-                            var result = await userMgr.AddClaimAsync(user, new Claim(JwtClaimTypes.Role, user.Role));
-                            
-                        }
+                            var roleResult = await userMgr.AddToRoleAsync(user, user.Role);
 
+                            var claims = new List<Claim>()
+                            {
+                                new Claim("sub", user.Id),
+                                new Claim(JwtClaimTypes.GivenName, user.Name),
+                                new Claim(JwtClaimTypes.FamilyName, user.LastName),
+                                new Claim(JwtClaimTypes.Email, user.Email),
+                                new Claim(JwtClaimTypes.Role, user.Role),
+                            };
+                           var claimsResult=  await userMgr.AddClaimsAsync(user, claims);
+                        }
                     }
 
                     if(!await context.Products.AnyAsync())
@@ -153,6 +170,7 @@ namespace StoreApi.Context.Data
                 Name = "Admin DemoUser",
                 PhoneNumber = "1234567890",
                 UserName = "admin@yopmail.com",
+                Email = "admin@yopmail.com",
                 NormalizedEmail = "ADMIN@YOPMAIL.COM",
                 NormalizedUserName = "ADMIN@YOPMAIL.COM",
                 SecurityStamp = Guid.NewGuid().ToString("D"),
@@ -167,6 +185,7 @@ namespace StoreApi.Context.Data
                 Name = "DemoUser",
                 PhoneNumber = "1234567890",
                 UserName = "user@yopmail.com",
+                Email= "user@yopmail.com",
                 NormalizedEmail = "user@YOPMAIL.COM",
                 NormalizedUserName = "user@YOPMAIL.COM",
                 SecurityStamp = Guid.NewGuid().ToString("D"),
