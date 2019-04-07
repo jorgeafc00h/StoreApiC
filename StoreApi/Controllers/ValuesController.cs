@@ -14,7 +14,7 @@ namespace StoreApi.Controllers
     {
         // GET api/values
         [HttpGet]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(AuthenticationSchemes = "Bearer" ,Roles ="Admin")]
         public IActionResult Get()
         {
             var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToArray();

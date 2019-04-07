@@ -1,4 +1,5 @@
-﻿using IdentityServer4.Models;
+﻿using IdentityModel;
+using IdentityServer4.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,7 +72,8 @@ namespace StoreApi.Identity
 
         public static IEnumerable<ApiResource> Apis = new List<ApiResource>
         {
-            new ApiResource("api1", "StoreApiCoding")
+            new ApiResource("api1", "StoreApiCoding",
+                new[]{ JwtClaimTypes.Id,JwtClaimTypes.Name,JwtClaimTypes.FamilyName,JwtClaimTypes.Role})
         };
 
         public static string BaseUrl { get; set; } = "https://localhost:44373/";
