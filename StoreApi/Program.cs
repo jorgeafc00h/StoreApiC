@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using StoreApi.Context;
 using StoreApi.Context.Data;
+using StoreApi.Identity;
 using WebHost.Customization;
 
 namespace StoreApi
@@ -32,6 +33,8 @@ namespace StoreApi
                 logging.AddDebug();
                 logging.AddEventSourceLogger();
             })
+            .UseSetting("https_port", "44373")
+            .UseUrls("http://localhost:49555/",Config.BaseUrl)
                 .UseStartup<Startup>()
                .Build();
     }
