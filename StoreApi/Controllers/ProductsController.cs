@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -86,7 +87,7 @@ namespace StoreApi.Controllers
         [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create([FromBody] Product model)
         {
-            return Ok(await Service.InsertOrUpdateAsync(model));
+          return Ok(await Service.InsertOrUpdateAsync(model));
         }
 
 
@@ -131,7 +132,7 @@ namespace StoreApi.Controllers
         /// <param name="productId"></param>
         /// <param name="quantity"></param>
         /// <returns></returns>
-        [HttpPut("AddStock/{productId,quantity}", Name = "AddStock")]
+        [HttpPut("AddStock/{productId}", Name = "AddStock")]
         [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
@@ -154,7 +155,7 @@ namespace StoreApi.Controllers
         /// <param name="quantity"></param>
         /// <returns></returns>
         // PUT api/
-        [HttpPut("RemoveStock/{productId,quantity}", Name = "RemoveStock")]
+        [HttpPut("RemoveStock/{productId}", Name = "RemoveStock")]
         [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
@@ -176,7 +177,7 @@ namespace StoreApi.Controllers
         /// <param name="productId"></param>
         /// <param name="quantity"></param>
         /// <returns></returns>
-        [HttpPut("AddSale/{productId,quantity}", Name = "AddSale")]
+        [HttpPut("AddSale/{productId}", Name = "AddSale")]
         [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
 
