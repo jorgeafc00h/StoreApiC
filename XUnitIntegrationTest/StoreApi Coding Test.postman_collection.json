@@ -1,0 +1,813 @@
+{
+	"info": {
+		"_postman_id": "d4acc364-1941-4e39-9e44-fae3fde9a8fe",
+		"name": "StoreApi Coding Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetAllProducts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "13cc7e19-4d88-42c0-b20f-48ef7123234c",
+						"exec": [
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Body is not empty\"] = responseBody;",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base-url}}/api/products/",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"products",
+						""
+					]
+				},
+				"description": "Return all available products\t"
+			},
+			"response": []
+		},
+		{
+			"name": "GetFirstProduct",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "61523ad5-726a-45d1-b5e7-fb0d38b51147",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Body is not empty\"] = responseBody;",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"",
+							" tests[\"Id Product\"] =data.id== 1"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base-url}}/api/products/1",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "507dd7ac-8660-487d-aa7e-cbf9b32a6aae",
+						"exec": [
+							"eval(postman.getEnvironmentVariable(\"JsTools\"));",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Body is not empty\"] = responseBody;",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"",
+							" tests[\"Product count\"] =data.count== 4",
+							" tests[\"Page Number\"] =data.page== 1"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base-url}}/api/Products/search/chocolate?keywords=chocolate&limit=2&page=1&orderbydesc=false",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"Products",
+						"search",
+						"chocolate"
+					],
+					"query": [
+						{
+							"key": "keywords",
+							"value": "chocolate"
+						},
+						{
+							"key": "limit",
+							"value": "2"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "orderbydesc",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Products Page 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5d89a764-116b-4e24-9174-a29d843a3f10",
+						"exec": [
+							"eval(postman.getEnvironmentVariable(\"JsTools\"));",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Body is not empty\"] = responseBody;",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"",
+							" tests[\"Product count\"] =data.count== 4",
+							" tests[\"Page Number\"] =data.page== 2"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base-url}}/api/Products/search/chocolate?keywords=chocolate&limit=2&page=2&orderbydesc=false",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"Products",
+						"search",
+						"chocolate"
+					],
+					"query": [
+						{
+							"key": "keywords",
+							"value": "chocolate"
+						},
+						{
+							"key": "limit",
+							"value": "2"
+						},
+						{
+							"key": "page",
+							"value": "2"
+						},
+						{
+							"key": "orderbydesc",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Products Desc",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5d89a764-116b-4e24-9174-a29d843a3f10",
+						"exec": [
+							"eval(postman.getEnvironmentVariable(\"JsTools\"));",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Body is not empty\"] = responseBody;",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"",
+							" tests[\"Product count\"] =data.count== 4",
+							" tests[\"Page Number\"] =data.page== 2"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base-url}}/api/Products/search/chocolate?keywords=chocolate&limit=2&page=2&orderbydesc=true",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"Products",
+						"search",
+						"chocolate"
+					],
+					"query": [
+						{
+							"key": "keywords",
+							"value": "chocolate"
+						},
+						{
+							"key": "limit",
+							"value": "2"
+						},
+						{
+							"key": "page",
+							"value": "2"
+						},
+						{
+							"key": "orderbydesc",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Wrong Credentials Auth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5f56eab8-d095-48a7-a2ec-7b443740b9b0",
+						"exec": [
+							"eval(postman.getEnvironmentVariable(\"JsTools\"));",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 400;",
+							"tests[\"Body is not empty\"] = responseBody;",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"",
+							" tests[\"New Product Created with new Id\"] =data.error==\"invalid_grant\";",
+							" tests[\"Match Product Price\"] =data.error_description== \"invalid_username_or_password\";",
+							" "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "admin@yopmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "api1",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "ro.client",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "secret",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base-url}}/connect/token",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"connect",
+						"token"
+					]
+				},
+				"description": "administrator wrong credentials Auth"
+			},
+			"response": []
+		},
+		{
+			"name": "Login as Admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5f56eab8-d095-48a7-a2ec-7b443740b9b0",
+						"exec": [
+							"eval(postman.getEnvironmentVariable(\"JsTools\"));",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Body is not empty\"] = responseBody;",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"",
+							" tests[\"token_type equals bearer\"] =data.token_type==\"Bearer\";",
+							" tests[\"Match default expires_in\"] =data.expires_in== 3600;",
+							" tests[\"access_token is valid\"] =data.access_token !== \"\";",
+							" ",
+							" postman.setEnvironmentVariable(\"bearer-token\", data.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "admin@yopmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234567",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "api1",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "ro.client",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "secret",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base-url}}/connect/token",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"connect",
+						"token"
+					]
+				},
+				"description": "administrator wrong credentials Auth"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Identity Claims",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "61523ad5-726a-45d1-b5e7-fb0d38b51147",
+						"exec": [
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Body is not empty\"] = responseBody;",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer-token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base-url}}/api/identity/",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"identity",
+						""
+					]
+				},
+				"description": "Get claims from protected endpoint without role filter"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Admin Claims",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "61523ad5-726a-45d1-b5e7-fb0d38b51147",
+						"exec": [
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Body is not empty\"] = responseBody;",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"",
+							"var id =  postman.getEnvironmentVariable(\"new-product-id\");",
+							" tests[\"product is correct\"] =data.id == id;",
+							" tests[\"product price is valid\"] =data.price== 5.5;",
+							" tests[\"product stock is valid\"] =data.availableStock == 10;",
+							" tests[\"product maxStockThreshold is valid\"] =data.maxStockThreshold == 5;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer-token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base-url}}/api/identity/Adminclaims",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"identity",
+						"Adminclaims"
+					]
+				},
+				"description": "Get Admin claims from protected enpoint with role authorization. "
+			},
+			"response": []
+		},
+		{
+			"name": "Create Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ad6b8c48-0982-4421-8727-24ad6973cefa",
+						"exec": [
+							"eval(postman.getEnvironmentVariable(\"JsTools\"));",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Body is not empty\"] = responseBody;",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"",
+							" tests[\"new product id created\"] =data.id !== 0;",
+							" tests[\"product price is valid\"] =data.price== 5.5;",
+							" tests[\"product stock is valid\"] =data.availableStock == 10;",
+							" tests[\"product maxStockThreshold is valid\"] =data.maxStockThreshold == 5;",
+							" ",
+							" postman.setEnvironmentVariable(\"new-product-id\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer-token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Test Product\",\r\n  \"description\": \"Test Decription product created from postman\",\r\n  \"sku\": \"\",\r\n  \"price\": 5.50,\r\n  \"availableStock\": 10,\r\n  \"restockThreshold\": 6,\r\n  \"maxStockThreshold\": 20,\r\n  \"id\": 0\r\n}"
+				},
+				"url": {
+					"raw": "{{base-url}}/api/Products",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"Products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Created Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "61523ad5-726a-45d1-b5e7-fb0d38b51147",
+						"exec": [
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Body is not empty\"] = responseBody;",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"",
+							"var id =  postman.getEnvironmentVariable(\"new-product-id\");",
+							" tests[\"product is correct\"] =data.id == id;",
+							" tests[\"product price is valid\"] =data.price== 5.5;",
+							" tests[\"product stock is valid\"] =data.availableStock == 10;",
+							" tests[\"product maxStockThreshold is valid\"] =data.maxStockThreshold == 5;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base-url}}/api/products/{{new-product-id}}",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"products",
+						"{{new-product-id}}"
+					]
+				},
+				"description": "get created product by test"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Created Product Logs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "61523ad5-726a-45d1-b5e7-fb0d38b51147",
+						"exec": [
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Body is not empty\"] = responseBody;",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"",
+							"var id =  postman.getEnvironmentVariable(\"new-product-id\");",
+							" "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base-url}}/api/products/productlog/{{new-product-id}}",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"products",
+						"productlog",
+						"{{new-product-id}}"
+					]
+				},
+				"description": "get created product by test"
+			},
+			"response": []
+		},
+		{
+			"name": "AddStock",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "58060f2a-4f85-48d5-9290-ec51f5014522",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Body is not empty\"] = responseBody;",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"",
+							"var id =  postman.getEnvironmentVariable(\"new-product-id\");",
+							" tests[\"product is correct\"] =data.id == id;",
+							" tests[\"product price is valid\"] =data.price== 5.5;",
+							" tests[\"product stock is valid\"] =data.availableStock == 20;",
+							" tests[\"product maxStockThreshold is valid\"] =data.maxStockThreshold == 5;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer-token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base-url}}/api/Products/addstock/{{new-product-id}}?quantity=10",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"Products",
+						"addstock",
+						"{{new-product-id}}"
+					],
+					"query": [
+						{
+							"key": "quantity",
+							"value": "10"
+						}
+					]
+				},
+				"description": "AddStock allowed just for admin"
+			},
+			"response": []
+		},
+		{
+			"name": "RemoveStock",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "58060f2a-4f85-48d5-9290-ec51f5014522",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Body is not empty\"] = responseBody;",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"",
+							"var id =  postman.getEnvironmentVariable(\"new-product-id\");",
+							" tests[\"product is correct\"] =data.id == id;",
+							" tests[\"product price is valid\"] =data.price== 5.5;",
+							" tests[\"product stock is valid\"] =data.availableStock == 10;",
+							" tests[\"product maxStockThreshold is valid\"] =data.maxStockThreshold == 20;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{bearer-token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base-url}}/api/Products/removestock/{{new-product-id}}?quantity=10",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"Products",
+						"removestock",
+						"{{new-product-id}}"
+					],
+					"query": [
+						{
+							"key": "quantity",
+							"value": "10"
+						}
+					]
+				},
+				"description": "AddStock allowed just for admin"
+			},
+			"response": []
+		}
+	]
+}
