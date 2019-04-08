@@ -93,19 +93,26 @@ namespace StoreApi.BusinessAccess.Services
 
         public async Task<Product> InsertOrUpdateAsync(Product model)
         {
-            Context.Entry(model).State = model.Id == 0 ?
-                 EntityState.Added : EntityState.Modified;
+            
+            var entityState = model.Id == 0 ? EntityState.Added : EntityState.Modified;
+
+
+            Context.Entry(model).State = entityState;
 
             var previous = await Context.Products
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Id == model.Id);
 
+            await Context.SaveChangesAsync();
+
             var log = new ProductAuditLog()
             {
                 ProductId = model.Id,
                 UserId = UserId,
-
+                Description = $"Product {entityState} {model.ToString()}",
             };
+
+            Context.ProductLogs.Add(log);
 
             await Context.SaveChangesAsync();
 
@@ -143,6 +150,11 @@ namespace StoreApi.BusinessAccess.Services
         public Task<SearchResult> Search(FilterOptionViewModel filter)
         {
             return Search(filter.Keywords, filter.Limit, filter.Page, filter.OrderbyDesc);
+        }
+
+        public async Task<IEnumerable<ProductAuditLog>> GetProductLogsAsync(int id)
+        {
+            return await Context.ProductLogs.Where(p => p.ProductId == id).ToListAsync();
         }
     }
 }

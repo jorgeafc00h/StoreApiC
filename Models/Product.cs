@@ -78,6 +78,11 @@ namespace Models
             return this.AvailableStock - original;
         }
 
+        public override string ToString()
+        {
+            return $"Price :{this.Price} Stock :{this.AvailableStock} MaxStockThreshold:{this.MaxStockThreshold} RestockThreshold:{this.RestockThreshold}";
+        }
+
     }
 
 

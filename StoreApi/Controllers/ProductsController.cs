@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -54,19 +55,38 @@ namespace StoreApi.Controllers
         }
 
         /// <summary>
+        /// returns a product by Id 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("productlog/{id}", Name = "GetProductLog")]
+        [ProducesResponseType(typeof(IEnumerable<ProductAuditLog>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> GetProductLog(int id)
+        {
+
+            var logs = await Service.GetProductLogsAsync(id);
+
+            if (logs != null || logs.Any())
+                return Ok(logs);
+            else
+                return NotFound();
+        }
+
+
+        /// <summary>
         /// Creates a product 
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         // POST api/
-        [HttpPost("{product}",Name ="Create")]
+        [HttpPost(Name ="Create")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create([FromBody] Product model)
         {
-            await Service.InsertOrUpdateAsync(model);
-
-            return Ok();
-
+            return Ok(await Service.InsertOrUpdateAsync(model));
         }
 
 
@@ -114,6 +134,7 @@ namespace StoreApi.Controllers
         [HttpPut("AddStock/{productId,quantity}", Name = "AddStock")]
         [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> AddStock(int productId, int quantity)
         {
             var product = await Service.AddStock(productId, quantity);
@@ -136,6 +157,7 @@ namespace StoreApi.Controllers
         [HttpPut("RemoveStock/{productId,quantity}", Name = "RemoveStock")]
         [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> RemoveStock(int productId, int quantity)
         {
             var product = await Service.RemoveStock(productId, quantity);

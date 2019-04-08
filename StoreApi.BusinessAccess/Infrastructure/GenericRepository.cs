@@ -85,7 +85,7 @@ namespace StoreApi.BusinessAccess.Infrastructure
             {
 
 
-                var userIdClaim = ClaimsPrincipal.Current.FindFirst(c => PotentialIdClaim.Contains(c.Type));
+                var userIdClaim = ClaimsPrincipal.Current?.FindFirst(c => PotentialIdClaim.Contains(c.Type));
 
                 //if (userIdClaim == null) throw new Exception("Authentication Failed, verify identity Server Settings");
 

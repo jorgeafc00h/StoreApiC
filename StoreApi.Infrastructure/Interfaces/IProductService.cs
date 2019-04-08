@@ -30,6 +30,8 @@ namespace StoreApi.Infrastructure.Interfaces
         Task DeleteAsync(int id);
         Task<Product> GetProductAsync(int id);
 
+        Task<IEnumerable<ProductAuditLog>> GetProductLogsAsync(int id);
+
         Task<int> CountAsync();
 
         IQueryable<Product> AsNotracking();
