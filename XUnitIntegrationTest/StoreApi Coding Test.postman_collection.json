@@ -489,12 +489,7 @@
 							"tests[\"Body is not empty\"] = responseBody;",
 							"",
 							"var data = JSON.parse(responseBody);",
-							"",
-							"var id =  postman.getEnvironmentVariable(\"new-product-id\");",
-							" tests[\"product is correct\"] =data.id == id;",
-							" tests[\"product price is valid\"] =data.price== 5.5;",
-							" tests[\"product stock is valid\"] =data.availableStock == 10;",
-							" tests[\"product maxStockThreshold is valid\"] =data.maxStockThreshold == 5;"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -550,7 +545,7 @@
 							" tests[\"new product id created\"] =data.id !== 0;",
 							" tests[\"product price is valid\"] =data.price== 5.5;",
 							" tests[\"product stock is valid\"] =data.availableStock == 10;",
-							" tests[\"product maxStockThreshold is valid\"] =data.maxStockThreshold == 5;",
+							" tests[\"product maxStockThreshold is valid\"] =data.maxStockThreshold == 20;",
 							" ",
 							" postman.setEnvironmentVariable(\"new-product-id\", data.id);"
 						],
@@ -613,7 +608,7 @@
 							" tests[\"product is correct\"] =data.id == id;",
 							" tests[\"product price is valid\"] =data.price== 5.5;",
 							" tests[\"product stock is valid\"] =data.availableStock == 10;",
-							" tests[\"product maxStockThreshold is valid\"] =data.maxStockThreshold == 5;"
+							" tests[\"product maxStockThreshold is valid\"] =data.maxStockThreshold == 20;"
 						],
 						"type": "text/javascript"
 					}
@@ -702,7 +697,7 @@
 							" tests[\"product is correct\"] =data.id == id;",
 							" tests[\"product price is valid\"] =data.price== 5.5;",
 							" tests[\"product stock is valid\"] =data.availableStock == 20;",
-							" tests[\"product maxStockThreshold is valid\"] =data.maxStockThreshold == 5;"
+							" tests[\"product maxStockThreshold is valid\"] =data.maxStockThreshold == 20;"
 						],
 						"type": "text/javascript"
 					}
