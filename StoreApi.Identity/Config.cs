@@ -76,6 +76,8 @@ namespace StoreApi.Identity
                 new[]{ JwtClaimTypes.Id,JwtClaimTypes.Name,JwtClaimTypes.FamilyName,JwtClaimTypes.Role})
         };
 
-        public static string BaseUrl { get; set; } = "https://localhost:44373/";
+        public static string BaseUrl { get; set; } = "http://localhost:49557/";// "https://localhost:44373/";
+
+        
     }
 }

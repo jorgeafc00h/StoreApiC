@@ -21,14 +21,19 @@ namespace StoreApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration,ILogger<Startup> logger)
+        public Startup(IConfiguration configuration,ILogger<Startup> logger, IHostingEnvironment en)
         {
             Configuration = configuration;
             this._logger = logger;
+            this.env = en;
+          
         }
 
         public IConfiguration Configuration { get; }
 
+        public IHostingEnvironment env;
+
+        
         private readonly ILogger<Startup> _logger;
 
         // This method gets called by the runtime. Use this method to add services to the container or web app.
@@ -83,11 +88,11 @@ namespace StoreApi
             })
            .AddJwtBearer(options =>
            {
-                // base-address  identityserver
-                options.Authority = Config.BaseUrl;
+               // base-address  identityserver
+               options.Authority = Config.BaseUrl;
 
-                // name of the API resource
-                options.Audience = "api1";
+               // name of the API resource
+               options.Audience = "api1";
 
                options.RequireHttpsMetadata = false;
            });
@@ -138,7 +143,7 @@ namespace StoreApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "StoreApiCoding V1");
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

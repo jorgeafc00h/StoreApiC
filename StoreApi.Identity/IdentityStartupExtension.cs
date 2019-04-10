@@ -11,6 +11,9 @@ using Microsoft.EntityFrameworkCore;
 //using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
 
 namespace StoreApi.Identity
 {
@@ -18,11 +21,14 @@ namespace StoreApi.Identity
     {
 
         public static void CustomIdentityServerConfiguration(this IServiceCollection services,string connectionString,string migrationsAssembly)
-        { 
+        {
+
             //Implement Identity Server 
             services.AddIdentityServer()
-               .AddDeveloperSigningCredential()
-                //.AddSigningCredential(new RsaSecurityKey())
+                .AddDeveloperSigningCredential()
+                
+                
+                //.AddSigningCredential(cert)
                 // this adds the config data from DB (clients, resources)
                 .AddConfigurationStore(options =>
                 {
@@ -40,11 +46,11 @@ namespace StoreApi.Identity
                     // this enables automatic token cleanup. this is optional.
                     options.EnableTokenCleanup = true;
                 })
-             
+
               .AddInMemoryIdentityResources(Config.IdentityResources)
               .AddInMemoryClients(Config.Clients)
               .AddInMemoryApiResources(Config.Apis)
-              //.AddTestUsers(TestUsers.Users)
+              .AddTestUsers(TestUsers.Users)
               .AddAspNetIdentity<ApplicationUser>();
             
         }
@@ -54,62 +60,31 @@ namespace StoreApi.Identity
             app.UseIdentityServer();
         }
 
-        //public static void AddCustomIdentityServerAuthentication(this IServiceCollection services,ILogger _logger)
-        //{
-        //    //services.AddAuthentication(options =>
-        //    //{
-        //    //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        //    //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        //    //})
+        private static SigningCredentials CreateSigningCredential()
+        {
+            var credentials = new SigningCredentials(GetSecurityKey(), SecurityAlgorithms.RsaSha256Signature);
+
+            return credentials;
+        }
+        private static RSACryptoServiceProvider GetRSACryptoServiceProvider()
+        {
+            return new RSACryptoServiceProvider(2048);
+        }
+        private static SecurityKey GetSecurityKey()
+        {
+            var key = "Test";
+
+            var param = new RSAParameters
+            {
+                D = Encoding.ASCII.GetBytes(key) ,
+                
+            };
 
 
-        //    services.AddAuthentication("bearer")
-        //     .AddIdentityServerAuthentication("bearer", options =>
-        //     {
-        //         options.Authority = Config.BaseUrl;
-        //         options.RequireHttpsMetadata = false;
+            return IdentityServerBuilderExtensionsCrypto.CreateRsaSecurityKey(param, "2a2467e4a208110eb83896572a7c10af");
+        }
 
-        //         options.ApiName = "api1";
-        //         options.ApiSecret = "secret";
 
-        //         options.JwtBearerEvents = new JwtBearerEvents
-        //         {
-        //             OnMessageReceived = e =>
-        //             {
-        //                 _logger.LogTrace("JWT: message received");
-        //                 return Task.CompletedTask;
-        //             },
 
-        //             OnTokenValidated = e =>
-        //             {
-        //                 _logger.LogTrace("JWT: token validated");
-        //                 return Task.CompletedTask;
-        //             },
-
-        //             OnAuthenticationFailed = e =>
-        //             {
-        //                 _logger.LogTrace("JWT: authentication failed");
-        //                 return Task.CompletedTask;
-        //             },
-
-        //             OnChallenge = e =>
-        //             {
-        //                 _logger.LogTrace("JWT: challenge");
-        //                 return Task.CompletedTask;
-        //             }
-        //         };
-        //     });
-
-        //    //.AddJwtBearer(options =>
-        //    //{
-        //    //     // base-address  identityserver
-        //    //     options.Authority = Config.BaseUrl;
-
-        //    //     // name of the API resource
-        //    //     options.Audience = "api1";
-
-        //    //    options.RequireHttpsMetadata = false;
-        //    //});
-        //}
     }
 }
